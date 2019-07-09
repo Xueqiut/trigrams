@@ -5,6 +5,7 @@ const busboy = require('connect-busboy');
 const fs = require('fs');
 const multer = require('multer')
 const path = require('path');
+const config = require('config');
 const trigrams = require('./trigrams')
 const app = express()
 const port = 3000
@@ -104,7 +105,7 @@ app.get('/api/v1/texts/:id/generate', (req, res) => {
         else{
             seedWords = seedWords.replace('+', ' ');
             var newText = trigrams.generateText(maxSize, seedWords, result.data);
-            return res.status(200).send(newText);
+            return res.status(200).json({"newTrigrams" : newText});;
         }
     });
 
@@ -115,6 +116,10 @@ app.get('/api/v1/texts', db.getTexts)
 app.get('/api/v1/texts/:id', db.getTextsById)
 
 app.listen(port, () => {
-    db.createTables();
+    if(config.util.getEnv('NODE_ENV') !== 'test') {
+        db.createTables();
+    }
     console.log(`Server running on port ${port}.`);
 })
+
+module.exports = app;

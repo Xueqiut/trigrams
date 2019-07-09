@@ -1,14 +1,9 @@
 const Pool = require('pg').Pool
 const prepareValue = require('pg/lib/utils').prepareValue
+const config = require('config')
 
 //TODO Move DB connection credentials to environment variable or secret store
-const pool = new Pool({
-  user: 'myuser',
-  host: 'localhost',
-  database: 'trigrams',
-  password: 'password',
-  port: 5432,
-})
+const pool = new Pool(config.dbConfig)
 
 const getTexts = (request, response) => {
 	pool.query('SELECT name FROM trigramsJson ORDER BY id ASC', (error, results) => {
@@ -56,6 +51,9 @@ const createText = (jsonObj, cb) => {
 
 const getDataByUUID = (UUID, cb) => {
 	pool.query('SELECT data FROM trigramsJson WHERE uuid = $1', [UUID], (error, results) => {
+		if (results == undefined || results.rows.length == 0){
+			return cb(new Error("Did not find the UUID"));
+		}
 		cb(error, results.rows[0])
 	})
 }

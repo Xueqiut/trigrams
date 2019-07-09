@@ -1,0 +1,9 @@
+{
+    "dbConfig": {
+        "user": "myuser",
+        "host": "localhost",
+        "database": "trigrams",
+        "password": "password",
+        "port": 5432
+    }
+}
