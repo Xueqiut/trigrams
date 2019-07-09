@@ -1,6 +1,6 @@
 # trigrams
 # Next Steps
-* Build Mock framework to test DB connection and to build Integration Test
+* Build Mock framework to test DB connection and to build Integration Test (patially fix)
 * Move DB connection credentials to environment variable or secret store 
 * Support upload multiple files
 * Refind method to better clean text file content
